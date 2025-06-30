@@ -1,13 +1,12 @@
-version: 3.5
-
-volumes:
-
-  mariadb:
-  wordpress:
-
-networks:
-  inception:
-    name: inception
-  
-
 services:
+  nginx:
+    build: ./requirements/nginx
+    ports:
+      - "80:80"
+    container_name: nginx
+    restart: unless-stopped
+  
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    restart: unless-stopped
