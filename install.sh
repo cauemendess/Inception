@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Encerra o script se algum comando falhar
+set -e
 
 echo "🔄 Atualizando pacotes..."
 sudo apt update
