@@ -1,0 +1,21 @@
+services:
+  nginx:
+    build: ./requirements/nginx
+    ports:
+      - "80:80"
+    container_name: nginx
+    restart: unless-stopped
+    volumes:
+      - ./web:/var/www/html
+  
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wp-php
+    restart: unless-stopped
+    volumes:
+      - ./web:/var/www/html
+  
+  maria_db:
+    container_name: mariadb
+    restart: unless-stopped
+    build: ./requirements/mariadb
