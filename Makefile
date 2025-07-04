@@ -28,17 +28,32 @@ reset:
 # Clean - remove tudo relacionado ao projeto
 clean:
 	@echo "🗑️ Cleaning project containers and images..."
-	@docker-compose -f ./srcs/docker-compose.yml down
+	@docker-compose -f ./srcs/docker-compose.yml down -v
 	@docker rmi -f $$(docker images -q srcs-*) 2>/dev/null || true
 	@docker system prune -f
+	@docker volume prune -f
+	@echo "🗂️ Cleaning host data directories..."
+	@sudo rm -rf /home/csilva-m/data/wordpress 2>/dev/null || true
+	@echo "Host data cleaned!"
 
 # Fclean - limpeza completa do sistema Docker
 fclean:
 	@echo "💥 Full clean - removing everything..."
+	@docker-compose -f ./srcs/docker-compose.yml down -v 2>/dev/null || true
 	@docker stop $$(docker ps -qa) 2>/dev/null || true
 	@docker rm $$(docker ps -qa) 2>/dev/null || true
 	@docker rmi -f $$(docker images -qa) 2>/dev/null || true
 	@docker system prune -af --volumes
+	@docker volume prune -f
+	@echo "🗂️ Cleaning host data directories..."
+	@sudo rm -rf /home/csilva-m/data 2>/dev/null || true
+	@echo "Host data cleaned!"
+
+# Clean-data - remove apenas os dados do host
+clean-data:
+	@echo "🗂️ Cleaning host data directories only..."
+	@sudo rm -rf /home/csilva-m/data/wordpress 2>/dev/null || true
+	@echo "Host data directories cleaned!"
 
 status:
 	@docker ps -a
@@ -51,4 +66,4 @@ logs:
 logs-%:
 	@docker logs -f $*
 
-.PHONY: all up down stop start rebuild reset clean fclean status logs
+.PHONY: all up down stop start rebuild reset clean clean-data fclean status logs

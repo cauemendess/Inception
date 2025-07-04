@@ -2,20 +2,27 @@ services:
   nginx:
     build: ./requirements/nginx
     ports:
-      - "80:80"
+      - "443:443"
     container_name: nginx
-    restart: unless-stopped
+    # env_file: .env
+    depends_on:
+      - wordpress
+    restart: always
     volumes:
-      - ./web:/var/www/html
+      - /home/csilva-m/data/wordpress:/var/www/html
   
   wordpress:
     build: ./requirements/wordpress
-    container_name: wp-php
-    restart: unless-stopped
+    container_name: wordpress
+    # env_file: .env
+    depends_on:
+      - mariadb
+    restart: always
     volumes:
-      - ./web:/var/www/html
+      - /home/csilva-m/data/wordpress:/var/www/html
   
-  maria_db:
+  mariadb:
     container_name: mariadb
-    restart: unless-stopped
+    # env_file: .env
+    restart: always
     build: ./requirements/mariadb
