@@ -1,16 +1,18 @@
 FROM debian:bookworm
 
 RUN apt-get update && \
-    apt-get install -y nginx openssl && \
+    apt-get install -y nginx openssl netcat-openbsd && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm /etc/nginx/sites-enabled/default && \
+    rm /etc/nginx/sites-available/default
 
-# Gerar certificado SSL auto-assinado
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/ssl/private/nginx-selfsigned.key \
-    -out /etc/ssl/certs/nginx-selfsigned.crt \
-    -subj "/C=BR/ST=SP/L=SaoPaulo/O=42SP/CN=localhost"
+COPY ./config/default /etc/nginx/sites-available/inception
+RUN ln -s /etc/nginx/sites-available/inception /etc/nginx/sites-enabled/
 
-COPY default /etc/nginx/sites-available/.
+COPY ./tools/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 443
+
+CMD ["/entrypoint.sh"]

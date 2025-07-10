@@ -4,25 +4,37 @@ services:
     ports:
       - "443:443"
     container_name: nginx
-    # env_file: .env
+    env_file: ../.env
     depends_on:
       - wordpress
     restart: always
     volumes:
       - /home/csilva-m/data/wordpress:/var/www/html
+    networks:
+      inception:
   
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
-    # env_file: .env
+    env_file: ../.env
     depends_on:
       - mariadb
     restart: always
     volumes:
       - /home/csilva-m/data/wordpress:/var/www/html
+    networks:
+      inception:
   
   mariadb:
     container_name: mariadb
-    # env_file: .env
+    volumes:
+      - /home/csilva-m/data/mariadb:/var/lib/mysql
+    env_file: ../.env
     restart: always
     build: ./requirements/mariadb
+    networks:
+      inception:
+
+networks:
+  inception:
+
