@@ -1,6 +1,31 @@
 # Inception
 # EVALUATION GUIDE
 
+## Environment Configuration
+Create a `.env` file in the root directory with the following variables:
+
+```bash
+MYSQL_ROOT_PASSWORD=root_pass
+MYSQL_DATABASE=wordpress
+MYSQL_USER=wp_user
+MYSQL_PASSWORD=wp_pass
+
+# WordPress Admin
+WP_TITLE=Inception
+WP_ADMIN=owner
+WP_ADMIN_PASS=Abc123456
+WP_ADMIN_EMAIL=owner@email.com
+
+# Viewer user
+WP_VIWER_USER=viewer
+WP_VIWER_PASSWORD=viewer_pass
+WP_VIWER_EMAIL=csilva-m@email.com
+
+# WordPress config
+WORDPRESS_DB_HOST=mariadb
+DOMAIN_NAME=csilva-m.42.fr
+```
+
 ## Basic Setup Verification
 ```bash
 docker network ls
