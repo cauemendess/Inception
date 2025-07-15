@@ -2,6 +2,12 @@ all: up
 
 setup:
 	@echo "📁 Creating necessary directories..."
+	@if ! grep -q "^127\.0\.0\.1.*\bcsilva-m\.42\.fr\b" /etc/hosts; then \
+		echo "Adicionando csilva-m.42.fr ao /etc/hosts..."; \
+		echo "127.0.0.1 csilva-m.42.fr" | sudo tee -a /etc/hosts > /dev/null; \
+	else \
+		echo "csilva-m.42.fr já está presente no /etc/hosts."; \
+	fi
 	@sudo mkdir -p /home/csilva-m/data/wordpress
 	@sudo mkdir -p /home/csilva-m/data/mariadb
 	@sudo chown -R $(USER):$(USER) /home/csilva-m/data
