@@ -5,12 +5,12 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY 50-server.cnf /etc/mysql/mariadb.conf.d/.
-COPY setup.sh /setup.sh
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
+COPY ./tools/script.sh /script.sh
 
 RUN mkdir -p /run/mysqld && \
     chown -R mysql:mysql /run/mysqld && \
     chown -R mysql:mysql /var/lib/mysql && \
-    chmod +x /setup.sh
+    chmod +x /script.sh
 
-CMD ["/setup.sh"]
+CMD ["/script.sh"]

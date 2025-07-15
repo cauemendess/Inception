@@ -21,14 +21,14 @@ services:
       - mariadb
     restart: always
     volumes:
-      - /home/csilva-m/data/wordpress:/var/www/html
+      - wordpress_data:/var/www/html
     networks:
       inception:
   
   mariadb:
     container_name: mariadb
     volumes:
-      - /home/csilva-m/data/mariadb:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     env_file: ../.env
     restart: always
     build: ./requirements/mariadb
@@ -37,4 +37,18 @@ services:
 
 networks:
   inception:
+
+volumes:
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/csilva-m/data/wordpress
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/csilva-m/data/mariadb
 

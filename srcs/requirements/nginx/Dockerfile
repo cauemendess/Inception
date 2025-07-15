@@ -7,12 +7,12 @@ RUN apt-get update && \
     rm /etc/nginx/sites-enabled/default && \
     rm /etc/nginx/sites-available/default
 
-COPY ./config/default /etc/nginx/sites-available/inception
+COPY ./conf/default /etc/nginx/sites-available/inception
 RUN ln -s /etc/nginx/sites-available/inception /etc/nginx/sites-enabled/
 
-COPY ./tools/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY ./tools/script.sh /script.sh
+RUN chmod +x /script.sh
 
 EXPOSE 443
 
-CMD ["/entrypoint.sh"]
+CMD ["/script.sh"]
