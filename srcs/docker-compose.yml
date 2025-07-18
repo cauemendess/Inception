@@ -24,6 +24,11 @@ services:
       - wordpress_data:/var/www/html
     networks:
       inception:
+    healthcheck:
+      test: ["CMD", "wp", "core", "is-installed", "--allow-root"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
   
   mariadb:
     container_name: mariadb
@@ -32,6 +37,11 @@ services:
     env_file: ../.env
     restart: always
     build: ./requirements/mariadb
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     networks:
       inception:
 
